@@ -16,6 +16,12 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) =
 
 });
 
+//Server Index config
+// const serveIndex = require('serve-index');
+// app.use(express.static(__dirname + '/'))
+// app.use('/uploads', serveIndex(__dirname + '/uploads'));
+
+
 
 //MIDLEWARES
 app.use(bodyParser.urlencoded({extended:false}))

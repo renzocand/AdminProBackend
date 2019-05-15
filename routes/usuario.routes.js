@@ -9,13 +9,19 @@ let {verificaToken} = require('../middlewares/autenticacion')
 // Rutas
 app.get('/', async (req, res, next) => {
 
+    var desde = req.query.desde || 0;
+    desde = Number(desde);
+    let limite = req.query.limite || 5;
+    limite = Number(limite)
     try {
         let usuarios = await Usuario.find({}, 'nombre email img role')
-
+        .skip(desde)
+        .limit(limite)
+        let contar = await Usuario.count({})
         res.status(200).json({
             ok: true,
-            mensaje: 'Peticion Get realizada correctamente',
-            usuarios
+            usuarios,
+            total: contar
         });
 
     } catch (error) {
@@ -38,10 +44,6 @@ app.post('/', verificaToken ,async (req, res) => {
             role: body.role
         })
         usuarioGuardado = await usuario.save()
-
-        if(!usuarioGuardado){
-            throw new Error('JIIJJIJI')
-        }
     
         res.status(201).json({
             ok: true,
@@ -56,7 +58,7 @@ app.post('/', verificaToken ,async (req, res) => {
     }
 })
 
-app.put('/:id', async (req,res)=>{
+app.put('/:id',verificaToken, async (req,res)=>{
     try {
         var id = req.params.id;
         let body = req.body;
@@ -77,7 +79,7 @@ app.put('/:id', async (req,res)=>{
 })
 
 
-app.delete('/:id', async (req,res)=>{
+app.delete('/:id',verificaToken, async (req,res)=>{
     try {
         var id = req.params.id;
 
