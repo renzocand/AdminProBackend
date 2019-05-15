@@ -32,7 +32,7 @@ app.get('/', async (req, res, next) => {
 });
 
 
-app.post('/', verificaToken ,async (req, res) => {
+app.post('/' ,async (req, res) => {
     try {
         let body = req.body;
 
@@ -48,7 +48,7 @@ app.post('/', verificaToken ,async (req, res) => {
         res.status(201).json({
             ok: true,
             mensaje: 'Se guardo correctamente',
-            usuarioToken : req.usuario
+            usuarioGuardado
         });
     } catch (error) {
         res.json({
