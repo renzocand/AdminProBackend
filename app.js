@@ -3,17 +3,14 @@ var express = require('express');
 var mongoose = require('mongoose');
 var appRoutes = require('./routes/app.routes');
 const bodyParser = require('body-parser')
+const path = require('path')
 // Inicializar variables
 var app = express();
 
-
 // Conexión a la base de datos
 mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) => {
-
     if (err) throw err;
-
     console.log('Base de datos: \x1b[32m%s\x1b[0m', 'online');
-
 });
 
 //Server Index config
@@ -21,12 +18,13 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) =
 // app.use(express.static(__dirname + '/'))
 // app.use('/uploads', serveIndex(__dirname + '/uploads'));
 
+//HABILITAR PUBLIC
+app.use(express.static(path.resolve(__dirname, './public')))
 
 
 //MIDLEWARES
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
-
 
 app.use(appRoutes)
 
